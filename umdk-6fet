@@ -19,6 +19,8 @@ _main() {
     fi
 
     stty -F "$__DEVICE" 115200 cs8 -echo hupcl -ixoff -onlcr
+    local __pid
+    __pid=$(tail -f "$__DEVICE")
 
     _set_all_ports $__OFF
     sleep 0.1
@@ -28,6 +30,8 @@ _main() {
     printf "Set all transistors to OFF\n"
     _set_all_ports $__OFF
     read -r -n 1 -p "Press any key to exit... "
+    kill -15 "$__pid"
+
     exit 0
 }
 
